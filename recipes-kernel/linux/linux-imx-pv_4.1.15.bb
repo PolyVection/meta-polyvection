@@ -18,7 +18,7 @@ SRC_URI[md5sum] = "054be7c35a8e298c6cbe6cee73096e45"
 
 DEPENDS += "lzop-native bc-native"
 
-SRCBRANCH = "imx_4.1.15_1.0.0_ga_PC1"
+SRCBRANCH = "4.1.15_pc1_dev"
 LOCALVERSION = "-6UL_PC1"
 SRCREV = "${AUTOREV}"
 KERNEL_SRC ?= "git://github.com/PolyVection/linux-imx.git;protocol=https"
@@ -30,8 +30,8 @@ S = "${WORKDIR}/git"
 
 do_configure_prepend() {
    # copy latest defconfig for imx_v7_defoonfig to use
-   cp ${S}/arch/arm/configs/imx_v7_PC1_defconfig ${B}/.config
-   cp ${S}/arch/arm/configs/imx_v7_PC1_defconfig ${B}/../defconfig
+   cp ${S}/arch/arm/configs/polycore1_defconfig ${B}/.config
+   cp ${S}/arch/arm/configs/polycore1_defconfig ${B}/../defconfig
 }
 
 KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"

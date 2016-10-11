@@ -68,6 +68,7 @@ SANITY_TESTED_DISTROS ?= " \
             Ubuntu-14.04 \n \
             Ubuntu-14.10 \n \
             Ubuntu-15.04 \n \
+            Ubuntu-16.04 \n \
             Fedora-21 \n \
             Fedora-23 \n \
             CentOS-6.* \n \
