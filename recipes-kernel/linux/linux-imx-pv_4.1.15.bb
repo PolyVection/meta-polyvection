@@ -28,10 +28,10 @@ DEFAULT_PREFERENCE = "1"
 
 S = "${WORKDIR}/git"
 
-do_configure_prepend() {
+do_preconfigure_prepend() {
    # copy latest defconfig for imx_v7_defoonfig to use
-   cp ${S}/arch/arm/configs/polycore1_defconfig ${B}/.config
-   cp ${S}/arch/arm/configs/polycore1_defconfig ${B}/../defconfig
+   cp ${S}/arch/arm/configs/polycore1_defconfig ${WORKDIR}/.config
+   cp ${S}/arch/arm/configs/polycore1_defconfig ${WORKDIR}/defconfig
 }
 
 KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"

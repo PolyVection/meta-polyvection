@@ -1,6 +1,6 @@
 
 DESCRIPTION = "Shairport-Sync - AirPlay audio player"
-DEPENDS = ""
+DEPENDS = "libdaemon libconfig"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSES;md5=926dc741301c0ecd801c957fa35c097a"
 
@@ -26,7 +26,7 @@ do_compile_prepend() {
 }
 
 EXTRA_OECONF_append = " --sysconfdir=/etc --with-alsa --with-tinysvcmdns --with-ssl=openssl --with-metadata --with-systemv"
-RDEPENDS_${PN} = "alsa-lib openssl libdaemon libconfig popt initscripts"
+RDEPENDS_${PN} = "alsa-lib openssl popt initscripts"
 
 inherit autotools pkgconfig update-rc.d
 

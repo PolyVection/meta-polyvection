@@ -4,8 +4,8 @@ include recipes-core/images/core-image-minimal.bb
 IMAGE_INSTALL += " \
 	kernel-modules \
 	" 
-IMAGE_FEATURES += "ssh-server-openssh"
-IMAGE_INSTALL_append = "usbutils wpa-supplicant iperf wireless-pv"
+IMAGE_FEATURES += " ssh-server-openssh"
+IMAGE_INSTALL_append = "usbutils wpa-supplicant iperf wireless-pv shairport-sync"
 
 DISTRO_FEATURES_remove = "gtk-2.0 gtk-3.0"
 
