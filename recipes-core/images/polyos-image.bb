@@ -5,7 +5,7 @@ IMAGE_INSTALL += " \
 	kernel-modules \
 	" 
 IMAGE_FEATURES += " ssh-server-openssh"
-IMAGE_INSTALL_append = "usbutils wpa-supplicant iperf wireless-pv shairport-sync"
+IMAGE_INSTALL_append = "usbutils wpa-supplicant iperf wireless-pv shairport-sync bluez5"
 
 DISTRO_FEATURES_remove = "gtk-2.0 gtk-3.0"
 

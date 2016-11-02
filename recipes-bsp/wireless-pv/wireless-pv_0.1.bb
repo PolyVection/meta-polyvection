@@ -4,6 +4,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 DESCRIPTION = "Wireless firmware for WiLink8 module on PolyVection boards."
 
 PROVIDES += "wireless-pv"
+RDEPENDS_${PN} = "uim"
 
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
