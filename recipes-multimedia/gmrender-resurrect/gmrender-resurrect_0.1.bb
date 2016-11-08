@@ -1,13 +1,13 @@
 
-DESCRIPTION = "Shairport-Sync - AirPlay audio player"
+DESCRIPTION = "Gmedia Renderer - UPNP media renderer"
 DEPENDS = "alsa-lib initscripts libdaemon libconfig libupnp gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav"
 LICENSE = "GNUv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
-SRCREV = "57dfbfd474f9008cc91f7a57b38ec4a7f96ae593"
-SRC_URI = 	"git://github.com/hzeller/gmrender-resurrect.git \
+SRCREV = "81b3424072a8a68eacb4090b45989deeb8d7e570"
+SRC_URI = 	"git://github.com/PolyVection/gmrender-resurrect.git \
 		file://gmediarenderer"
 
 S = "${WORKDIR}/git"
@@ -17,15 +17,15 @@ INITSCRIPT_PARAMS = "defaults 90 10"
 
 
 do_configure_prepend() {	
-	#cp ${WORKDIR}/shairport-sync.in ${WORKDIR}/git/scripts/shairport-sync.in
+
 }
 
 do_compile_prepend() {
-	#cp ${WORKDIR}/shairport-sync.conf ${WORKDIR}/build/scripts/shairport-sync.conf		
+	
 }
 
 do_compile_append() {
-	#cp ${WORKDIR}/git/scripts/init.d/gmediarenderer ${sysconfdir}/init.d/gmediarenderer		
+	
 }
 
 do_install_append () {
