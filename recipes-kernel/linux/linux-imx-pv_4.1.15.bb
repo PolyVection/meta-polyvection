@@ -6,7 +6,7 @@ DESCRIPTION = "Linux Kernel provided and supported by PolyVection for \
 PolyCore1 SoM and its peripherals."
 
 require recipes-kernel/linux/linux-imx.inc
-require recipes-kernel/linux/linux-dtb.inc
+require recipes-kernel/linux/linux-dtb-pv.inc
 
 inherit kernel fsl-kernel-localversion fsl-vivante-kernel-driver-handler
 

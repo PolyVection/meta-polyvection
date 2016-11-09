@@ -158,23 +158,41 @@ _generate_boot_image() {
 #                                                     Default Free space = 1.3x
 #                                                     Use IMAGE_OVERHEAD_FACTOR to add more space
 #                                                     <--------->
-#            4MiB               8MiB           SDIMG_ROOTFS                    4MiB
-# <-----------------------> <----------> <----------------------> <------------------------------>
-#  ------------------------ ------------ ------------------------ -------------------------------
-# | IMAGE_ROOTFS_ALIGNMENT | BOOT_SPACE | ROOTFS_SIZE            |     IMAGE_ROOTFS_ALIGNMENT    |
-#  ------------------------ ------------ ------------------------ -------------------------------
-# ^                        ^            ^                        ^                               ^
-# |                        |            |                        |                               |
-# 0                      4096     4MiB +  8MiB       4MiB +  8Mib + SDIMG_ROOTFS   4MiB +  8MiB + SDIMG_ROOTFS + 4MiB
+#            4MiB           512MiB              512MiB               512MiB
+# <-----------------> <----------------> <----------------> <------------------->
+#  ------------------ ------------------ ------------------ ---------------------
+# | ROOTFS_ALIGNMENT | ROOTFS_1_SIZE    | ROOTFS_2_SIZE    |     DATAFS_SIZE    |
+#  ------------------ ------------------ ------------------ ---------------------
+# ^                  ^                  ^                  ^                    ^
+# |                  |                  |                  |                    |
+# 0                 4M               4M + 512M     4M + 512M + 512M   4M + 512M + 512M + 512M
+
+# partition size [in KiB]
+ROOTFS_ALIGNMENT 	= "4000"
+ROOTFS_1_SIZE 		= "500000"
+RFSA_RFS1		= "504000"
+ROOTFS_2_SIZE		= "500000"
+RFSA_RFS1_RFS2		= "1004000"
+DATAFS_SIZE 		= "500000"
+RFSA_RFS1_RFS2_DFS	= "1504000"
+
 generate_imx_sdcard () {
+
 	# Create partition table
 	parted -s ${SDCARD} mklabel msdos
-	parted -s ${SDCARD} unit KiB mkpart primary fat32 ${IMAGE_ROOTFS_ALIGNMENT} $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED})
-	parted -s ${SDCARD} unit KiB mkpart primary $(expr  ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED}) $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ $ROOTFS_SIZE)
-	parted -s ${SDCARD} unit KiB mkpart primary $(expr  ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ $ROOTFS_SIZE) $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ $ROOTFS_SIZE \+ $ROOTFS_SIZE)
-	parted -s ${SDCARD} unit KiB mkpart primary $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ $ROOTFS_SIZE \+ $ROOTFS_SIZE) $(expr ${IMAGE_ROOTFS_ALIGNMENT} \+ ${BOOT_SPACE_ALIGNED} \+ $ROOTFS_SIZE \+ $ROOTFS_SIZE \+ $ROOTFS_SIZE)
+
+	# software bank 1
+	parted -s ${SDCARD} unit KiB mkpart primary ${ROOTFS_ALIGNMENT} $(expr ${RFSA_RFS1})
+
+	# software bank 2
+	parted -s ${SDCARD} unit KiB mkpart primary $(expr ${RFSA_RFS1}) $(expr ${RFSA_RFS1_RFS2})
+
+	# data partition
+	parted -s ${SDCARD} unit KiB mkpart primary $(expr  ${RFSA_RFS1_RFS2}) $(expr ${RFSA_RFS1_RFS2_DFS})
+
 	parted ${SDCARD} print
 
+	
 	# Burn bootloader
 	case "${IMAGE_BOOTLOADER}" in
 		imx-bootlets)
@@ -202,23 +220,24 @@ generate_imx_sdcard () {
 	esac
 	
 	
-	e2label ${SDCARD_ROOTFS} "rootA" 
+	e2label ${SDCARD_ROOTFS} "root1" 
 	
-	dd if=/dev/zero of=${WORKDIR}/rootB.img bs=1024 count=0 seek=$(expr 1024 \* 100)
-	mkfs ext4 -F ${WORKDIR}/rootB.img
-	e2label ${WORKDIR}/rootB.img "rootB"
+	dd if=/dev/zero of=${WORKDIR}/root2.img bs=1024 count=0 seek=$(expr 1024 \* 100)
+	mkfs ext4 -F ${WORKDIR}/root2.img
+	e2label ${WORKDIR}/root2.img "root2"
 
 	dd if=/dev/zero of=${WORKDIR}/data.img bs=1024 count=0 seek=$(expr 1024 \* 100)
 	mkfs ext4 -F ${WORKDIR}/data.img
 	e2label ${WORKDIR}/data.img "data"
 
-	_generate_boot_image 1
+	#_generate_boot_image 1
+
+	#mcopy -i ${SDCARD_ROOTFS} -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${DTS_BASE_NAME}.dtb ::/${DTS_BASE_NAME}.dtb
 
 	# Burn Partition
-	dd if=${WORKDIR}/boot.img of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024)
-	dd if=${SDCARD_ROOTFS} of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${BOOT_SPACE_ALIGNED} \* 1024 + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024)
-	dd if=${WORKDIR}/rootB.img of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${BOOT_SPACE_ALIGNED} \* 1024 + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024 + ${ROOTFS_SIZE} \* 1024)
-	dd if=${WORKDIR}/data.img of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${BOOT_SPACE_ALIGNED} \* 1024 + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024 + ${ROOTFS_SIZE} \* 1024 + ${ROOTFS_SIZE} \* 1024)
+	dd if=${SDCARD_ROOTFS} of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${ROOTFS_ALIGNMENT} \* 1024)
+	dd if=${WORKDIR}/root2.img of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${RFSA_RFS1} \* 1024)
+	dd if=${WORKDIR}/data.img of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${RFSA_RFS1_RFS2} \* 1024)
 }
 
 #
@@ -330,7 +349,7 @@ IMAGE_CMD_sdcard () {
 	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE} + ${IMAGE_ROOTFS_ALIGNMENT} - 1)
 	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE_ALIGNED} - ${BOOT_SPACE_ALIGNED} % ${IMAGE_ROOTFS_ALIGNMENT})
 	SDCARD_SIZE=$(expr ${IMAGE_ROOTFS_ALIGNMENT} + ${BOOT_SPACE_ALIGNED} + $ROOTFS_SIZE + ${IMAGE_ROOTFS_ALIGNMENT} + $ROOTFS_SIZE + ${IMAGE_ROOTFS_ALIGNMENT} + $ROOTFS_SIZE + ${IMAGE_ROOTFS_ALIGNMENT})
-
+	SDCARD_SIZE=$(expr ${RFSA_RFS1_RFS2_DFS} + 1024)
 	# Initialize a sparse file
 	dd if=/dev/zero of=${SDCARD} bs=1 count=0 seek=$(expr 1024 \* ${SDCARD_SIZE})
 
@@ -346,4 +365,12 @@ IMAGE_TYPEDEP_sdcard += "${@d.getVar('SDCARD_ROOTFS', 1).split('.')[-1]}"
 IMAGE_TYPEDEP_sdcard += " \
     ${@bb.utils.contains('IMAGE_FSTYPES', 'uboot.mxsboot-sdcard', 'uboot.mxsboot-sdcard', '', d)} \
     ${@bb.utils.contains('IMAGE_FSTYPES', 'barebox.mxsboot-sdcard', 'barebox.mxsboot-sdcard', '', d)} \
+"
+
+my_postprocess_function() {
+   cp ${DEPLOY_DIR_IMAGE}/zImage-imx6ul-coreamp1.dtb ${IMAGE_ROOTFS}/boot/imx6ul-coreamp1.dtb
+}
+
+ROOTFS_POSTPROCESS_COMMAND_append = " \
+  my_postprocess_function; \
 "
