@@ -1,7 +1,7 @@
 
 DESCRIPTION = "Gmedia Renderer - UPNP media renderer"
 DEPENDS = "alsa-lib initscripts libdaemon libconfig libupnp gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav"
-LICENSE = "GNUv2"
+LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"

@@ -222,21 +222,20 @@ generate_imx_sdcard () {
 	
 	e2label ${SDCARD_ROOTFS} "root1" 
 	
-	dd if=/dev/zero of=${WORKDIR}/root2.img bs=1024 count=0 seek=$(expr 1024 \* 100)
-	mkfs ext4 -F ${WORKDIR}/root2.img
+	dd if=/dev/zero of=${WORKDIR}/root2.img bs=1024 count=0 seek=${ROOTFS_2_SIZE}
+	mke2fs -t ext4 -F ${WORKDIR}/root2.img
 	e2label ${WORKDIR}/root2.img "root2"
 
-	dd if=/dev/zero of=${WORKDIR}/data.img bs=1024 count=0 seek=$(expr 1024 \* 100)
-	mkfs ext4 -F ${WORKDIR}/data.img
+	dd if=/dev/zero of=${WORKDIR}/data.img bs=1024 count=0 seek=${DATAFS_SIZE}
+	mke2fs -t ext4 -F ${WORKDIR}/data.img
 	e2label ${WORKDIR}/data.img "data"
 
 	#_generate_boot_image 1
 
-	#mcopy -i ${SDCARD_ROOTFS} -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${DTS_BASE_NAME}.dtb ::/${DTS_BASE_NAME}.dtb
-
 	# Burn Partition
 	dd if=${SDCARD_ROOTFS} of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${ROOTFS_ALIGNMENT} \* 1024)
 	dd if=${WORKDIR}/root2.img of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${RFSA_RFS1} \* 1024)
+	# dd if=${SDCARD_ROOTFS} of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${RFSA_RFS1} \* 1024)
 	dd if=${WORKDIR}/data.img of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${RFSA_RFS1_RFS2} \* 1024)
 }
 
