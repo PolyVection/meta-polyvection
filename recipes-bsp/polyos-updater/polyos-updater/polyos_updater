@@ -37,7 +37,7 @@ function run_update {
    echo " "
    echo "Step 2 - fetching update"
    echo "--------------------------------------------"    
-   DL_URL=`cat latest_version_url`
+   DL_URL=`cat polyos_${UPDATE_OS}.url`
    wget -q --show-progress ${DL_URL}  
    
    echo " "
@@ -46,7 +46,7 @@ function run_update {
    echo "--------------------------------------------" 
    echo "Verifying..."
    DL_SUM=`sha256sum polyos_${UPDATE_OS}.tar.bz2 | cut -d " " -f1`
-   REMOTE_SUM=`cat latest_version_sum`
+   REMOTE_SUM=`cat polyos_${UPDATE_OS}.chksum`
    #echo "Remote checksum: ${REMOTE_SUM}"
    #echo "Downld checksum: ${DL_SUM}"
  
@@ -77,7 +77,7 @@ function run_update {
    fi
    sync
    echo "Unpacking update... (will take some time)"
-   tar xf polyos_${UPDATE_OS}.tar.bz2 -C /mnt/update/mount
+   tar xf polyos_${UPDATE_OS}.tar.bz2 -C /mnt/update/mount --warning=no-timestamp
    sync
    echo "DONE"
 
@@ -106,13 +106,14 @@ echo "--------------------------------------------"
 echo "Current PolyOS version: ${CURRENT_OS}"
  
 wget -q ${URL_BASE}/latest_version
-wget -q ${URL_BASE}/latest_version_url
-wget -q ${URL_BASE}/latest_version_sum
-wget -q ${URL_BASE}/latest_releaseinfo
 
 UPDATE_OS=`cat latest_version`   
 echo "Available PolyOS update: ${UPDATE_OS}" 
 echo " "
+
+wget -q ${URL_BASE}/polyos_${UPDATE_OS}.url
+wget -q ${URL_BASE}/polyos_${UPDATE_OS}.chksum
+wget -q ${URL_BASE}/polyos_${UPDATE_OS}.txt
 
 read -p "Press Y to install or N to abort: " -n 1 -r
 echo " "

@@ -237,6 +237,11 @@ generate_imx_sdcard () {
 	dd if=${WORKDIR}/root2.img of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${RFSA_RFS1} \* 1024)
 	# dd if=${SDCARD_ROOTFS} of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${RFSA_RFS1} \* 1024)
 	dd if=${WORKDIR}/data.img of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${RFSA_RFS1_RFS2} \* 1024)
+
+	mkdir -p ${DEPLOY_DIR_IMAGE}/_PolyOS_release
+	cp ${DEPLOY_DIR_IMAGE}/polyos-image-coreamp1.tar.bz2 ${DEPLOY_DIR_IMAGE}/_PolyOS_release/polyos_${DISTRO_VERSION}.tar.bz2
+	DL_SUM=`sha256sum ${DEPLOY_DIR_IMAGE}/_PolyOS_release/polyos_${DISTRO_VERSION}.tar.bz2 | cut -d " " -f1`
+	echo ${DL_SUM} > ${DEPLOY_DIR_IMAGE}/_PolyOS_release/polyos_${DISTRO_VERSION}.chksum
 }
 
 #
@@ -367,8 +372,12 @@ IMAGE_TYPEDEP_sdcard += " \
 "
 
 my_postprocess_function() {
+   DATE=`date -u`
    cp ${DEPLOY_DIR_IMAGE}/zImage-imx6ul-coreamp1.dtb ${IMAGE_ROOTFS}/boot/imx6ul-coreamp1.dtb
    echo ${DISTRO_VERSION} > ${IMAGE_ROOTFS}/polyos_version
+   echo " " > ${IMAGE_ROOTFS}/etc/motd
+   echo "PolyOS ${DISTRO_VERSION} - timestamp: ${DATE}" >> ${IMAGE_ROOTFS}/etc/motd
+   echo " " >> ${IMAGE_ROOTFS}/etc/motd
 }
 
 ROOTFS_POSTPROCESS_COMMAND_append = " \
