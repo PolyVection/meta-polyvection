@@ -368,6 +368,7 @@ IMAGE_TYPEDEP_sdcard += " \
 
 my_postprocess_function() {
    cp ${DEPLOY_DIR_IMAGE}/zImage-imx6ul-coreamp1.dtb ${IMAGE_ROOTFS}/boot/imx6ul-coreamp1.dtb
+   echo ${DISTRO_VERSION} > ${IMAGE_ROOTFS}/polyos_version
 }
 
 ROOTFS_POSTPROCESS_COMMAND_append = " \

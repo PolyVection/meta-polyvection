@@ -1,6 +1,6 @@
 DISTRO = "polycore-imx"
-DISTRO_NAME = "PolyVection Distro"
-DISTRO_VERSION = "4.1.15-1.1.0-PC1"
+DISTRO_NAME = "PolyOS"
+DISTRO_VERSION = "0.0.0.0001"
 DISTRO_CODENAME = "jethro"
 SDK_VENDOR = "-pokysdk"
 SDK_VERSION := "${DISTRO_VERSION}"

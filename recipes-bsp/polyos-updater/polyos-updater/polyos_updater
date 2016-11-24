@@ -1,0 +1,131 @@
+#!/bin/bash
+
+URL_BASE="https://polymote.com/software/polyos/coreamp1"
+WORKING_DIR="/mnt/update"
+ACTIVE_BANK=`fw_printenv swbank | cut -d= -f2` 
+INACTIVE_BANK=0
+CURRENT_OS="0.0.0.0000"
+UPDATE_OS="0.0.0.0000"
+
+if ! [ -e "/polyos_version" ]; then
+CURRENT_OS="0.0.0.0000"
+else CURRENT_OS=`cat /polyos_version`
+fi
+
+if [ $ACTIVE_BANK == 2 ]; then 
+INACTIVE_BANK=1
+else INACTIVE_BANK=2
+fi
+
+echo " "
+echo "##########################################"
+echo "PolyOS bank-$ACTIVE_BANK is active on your system."
+echo "Using bank-$INACTIVE_BANK for updates."
+echo "##########################################"
+echo " "
+
+if ! [ -d "$WORKING_DIR" ]; then
+  mkdir ${WORKING_DIR}
+  cd ${WORKING_DIR}  
+else 
+  rm -r ${WORKING_DIR}/*
+  cd ${WORKING_DIR} 
+fi
+
+
+function run_update {                            
+   echo " "
+   echo "Step 2 - fetching update"
+   echo "--------------------------------------------"    
+   DL_URL=`cat latest_version_url`
+   wget -q --show-progress ${DL_URL}  
+   
+   echo " "
+   echo " "
+   echo "Step 3 - verifying download"
+   echo "--------------------------------------------" 
+   echo "Verifying..."
+   DL_SUM=`sha256sum polyos_${UPDATE_OS}.tar.bz2 | cut -d " " -f1`
+   REMOTE_SUM=`cat latest_version_sum`
+   #echo "Remote checksum: ${REMOTE_SUM}"
+   #echo "Downld checksum: ${DL_SUM}"
+ 
+   if [ $REMOTE_SUM == $DL_SUM ]; then                                                
+	echo "Verification PASSED"                                                               
+   else
+	echo "Verification FAILED"
+	echo "ABORTING!"
+	rm polyos_${UPDATE_OS}.tar.bz2
+	exit 1                                              
+   fi       
+                                                      
+   echo " "                                             
+   echo " " 
+   echo "Step 4 - mounting inactive bank"
+   echo "--------------------------------------------" 
+   mkdir /mnt/update/mount
+   mount /dev/mmcblk1p${INACTIVE_BANK} /mnt/update/mount
+   echo "DONE"
+
+   echo " "                                                       
+   echo " " 
+   echo "Step 5 - installing update"
+   echo "--------------------------------------------" 
+   if [ -d "/mnt/update/mount/bin" ]; then
+      echo "Deleting previous software..."                           
+      rm -r /mnt/update/mount/*           
+   fi
+   sync
+   echo "Unpacking update... (will take some time)"
+   tar xf polyos_${UPDATE_OS}.tar.bz2 -C /mnt/update/mount
+   sync
+   echo "DONE"
+
+   echo " "
+   echo " "
+   echo "Step 6 - update u-boot vars"
+   echo "--------------------------------------------" 
+   fw_setenv swbank $INACTIVE_BANK
+   echo "DONE"
+   
+   echo " "
+   echo "####################################"
+   echo "UPDATE SUCCESSFUL"
+   echo "REBOOTING NOW!"
+   echo "####################################"  
+   echo " "
+   reboot
+ 
+}   
+
+
+
+echo " " 
+echo "Step 1 - searching for updates"
+echo "--------------------------------------------"
+echo "Current PolyOS version: ${CURRENT_OS}"
+ 
+wget -q ${URL_BASE}/latest_version
+wget -q ${URL_BASE}/latest_version_url
+wget -q ${URL_BASE}/latest_version_sum
+wget -q ${URL_BASE}/latest_releaseinfo
+
+UPDATE_OS=`cat latest_version`   
+echo "Available PolyOS update: ${UPDATE_OS}" 
+echo " "
+
+read -p "Press Y to install or N to abort: " -n 1 -r
+echo " "
+
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    run_update
+else 
+    echo "Exiting PolyOS updater"
+    echo " "
+    exit 1
+fi
+
+
+
+
