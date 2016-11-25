@@ -5,7 +5,7 @@ IMAGE_INSTALL += " \
 	kernel-modules \
 	" 
 IMAGE_FEATURES += " ssh-server-openssh"
-IMAGE_INSTALL_append = "u-boot-fw-utils-pv alsa-utils usbutils wpa-supplicant iperf wireless-pv shairport-sync gmrender-resurrect bluez5 polyos-updater"
+IMAGE_INSTALL_append = "u-boot-fw-utils-pv alsa-utils usbutils wpa-supplicant iperf wireless-pv shairport-sync gmrender-resurrect bluez5 ntp polyos-updater"
 
 DISTRO_FEATURES_remove = "gtk+ gtk+3"
 
