@@ -1,6 +1,9 @@
+DISTRO_REMOTE = "${@os.popen('curl https://polymote.com/software/polyos/coreamp1/latest_version -s | cut -d. -f4').read().rstrip('\n')}"
+DISTRO_NEXT = "${@${DISTRO_REMOTE} + 1}"
+
 DISTRO = "polycore-imx"
 DISTRO_NAME = "PolyOS"
-DISTRO_VERSION = "0.0.0.0002"
+DISTRO_VERSION = "0.0.0.${DISTRO_NEXT}"
 DISTRO_CODENAME = "jethro"
 SDK_VENDOR = "-pokysdk"
 SDK_VERSION := "${DISTRO_VERSION}"

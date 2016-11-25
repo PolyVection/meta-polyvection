@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 URL_BASE="https://polymote.com/software/polyos/coreamp1"
 WORKING_DIR="/mnt/update"
@@ -37,7 +37,7 @@ function run_update {
    echo " "
    echo "Step 2 - fetching update"
    echo "--------------------------------------------"    
-   DL_URL=`cat polyos_${UPDATE_OS}.url`
+   DL_URL=`cat polyos_${UPDATE_OS}.link`
    wget -q --show-progress ${DL_URL}  
    
    echo " "
@@ -111,7 +111,7 @@ UPDATE_OS=`cat latest_version`
 echo "Available PolyOS update: ${UPDATE_OS}" 
 echo " "
 
-wget -q ${URL_BASE}/polyos_${UPDATE_OS}.url
+wget -q ${URL_BASE}/polyos_${UPDATE_OS}.link
 wget -q ${URL_BASE}/polyos_${UPDATE_OS}.chksum
 wget -q ${URL_BASE}/polyos_${UPDATE_OS}.txt
 
@@ -126,7 +126,3 @@ else
     echo " "
     exit 1
 fi
-
-
-
-
