@@ -25,8 +25,8 @@ do_compile_prepend() {
 	cp ${WORKDIR}/shairport-sync.conf ${WORKDIR}/build/scripts/shairport-sync.conf		
 }
 
-EXTRA_OECONF_append = " --sysconfdir=/etc --with-alsa --with-tinysvcmdns --with-ssl=openssl --with-metadata --with-systemv"
-RDEPENDS_${PN} = "alsa-lib openssl popt initscripts"
+EXTRA_OECONF_append = " --sysconfdir=/etc --with-alsa --with-avahi --with-ssl=openssl --with-metadata --with-systemv"
+RDEPENDS_${PN} = "alsa-lib openssl popt initscripts avahi-daemon"
 
 inherit autotools pkgconfig update-rc.d
 
