@@ -6,12 +6,12 @@ iface lo inet loopback
  
  
 # Wireless interfaces
-#auto wlan0
+auto wlan0
 iface wlan0 inet dhcp
   wireless_mode managed
   wireless_essid any
   wpa-driver nl80211
-  wpa-conf /etc/wpa_supplicant.conf
+  wpa-conf /mnt/data/settings/wireless/wifi.conf
  
  
 iface atml0 inet dhcp
