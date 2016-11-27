@@ -1,0 +1,35 @@
+#!/bin/sh                                                                       
+                                                                                
+if [ "$1" == "" ]; then                                                         
+        echo                                                                    
+        echo "Please enter your WiFi name and your password!"                   
+        echo 'E.g. "polyos-wifi NAME PASSWORD"'                                 
+        echo                                                                    
+else                                                                            
+                                                                                
+echo 'Your WiFi name = ' $1                                                     
+echo 'Your WiFi password = ' $2                                                 
+                                                                                
+if ! [ -d "/mnt/data/settings/wireless" ]; then                                 
+                                                                                
+        mkdir -p /mnt/data/settings/wireless                                    
+        cd /mnt/data/settings/wireless                                          
+else                                                                            
+        cd /mnt/data/settings/wireless                                          
+fi                                                                              
+                                                                                
+echo 'ctrl_interface=/var/run/wpa_supplicant' > wifi.conf                       
+echo 'ctrl_interface_group=0' >> wifi.conf                                      
+echo 'update_config=1' >> wifi.conf                                             
+echo >> wifi.conf                                                               
+echo 'network={' >> wifi.conf                                                   
+echo 'ssid="'$1'"' >> wifi.conf                                                 
+echo 'psk="'$2'"' >> wifi.conf                                                  
+echo 'id_str="0"' >> wifi.conf                                                  
+echo '}' >> wifi.conf                                                           
+echo >> wifi.conf                                                               
+                                                                                
+ifdown wlan0                                                                    
+ifup wlan0                                                                      
+                                                                                
+fi 
