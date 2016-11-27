@@ -3,7 +3,7 @@ LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://uim.c;beginline=1;endline=18;md5=9f0bbfbc10c67689e81a523e2976c31e"
 
 INITSCRIPT_NAME = "uim-sysfs"
-INITSCRIPT_PARAMS = "defaults 95 30"
+INITSCRIPT_PARAMS = "defaults 85 30"
 
 inherit update-rc.d
 
