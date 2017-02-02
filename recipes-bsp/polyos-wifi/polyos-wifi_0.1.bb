@@ -15,6 +15,5 @@ do_install () {
 }
 
 FILES_${PN} += "${sbindir}/polyos-wifi"
-RDEPENDS_${PN} = "wireless-pv"
 
 
