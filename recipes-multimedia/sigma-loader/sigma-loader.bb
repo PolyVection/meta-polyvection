@@ -8,20 +8,38 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
 SRCBRANCH = "master"
-SRCREV = "e76fc8dd3865839a1605e043fbae1aa645e9a2b4"
+SRCREV = "${AUTOREV}"
 SRC_URI = 	"git://github.com/polyvection/sigma-loader.git;branch=${SRCBRANCH} "
-SRC_URI += "file://dsp.xml"
+SRC_URI += "file://default.xml"
+SRC_URI += "file://sigma-loader.in"
 
 S = "${WORKDIR}/git"
+
+INITSCRIPT_NAME = "sigma-loader"
+INITSCRIPT_PARAMS = "defaults 80 10"
 
 do_compile_prepend () {
 	cp ${WORKDIR}/git/* ${WORKDIR}/build/
 }
 
 do_install_append () {
-	install -d ${D}${sysconfdir}/sigma-dsp
-	install -m 0755 ${WORKDIR}/dsp.xml ${D}${sysconfdir}/sigma-dsp/
-}
-FILES_${PN} += "${sysconfdir}/sigma-dsp/dsp.xml"
+	install -d ${D}${sbindir}
+	install -m 0755 ${WORKDIR}/build/sigma_loader ${D}${sbindir}/
 
-inherit autotools pkgconfig
+	install -d ${D}${sysconfdir}/sigma-dsp/firmware
+	install -m 0755 ${WORKDIR}/default.xml ${D}${sysconfdir}/sigma-dsp/firmware/
+
+	install -d ${D}${sysconfdir}/init.d
+	install -m 0755 ${WORKDIR}/sigma-loader.in ${D}${sysconfdir}/init.d/sigma-loader
+	chmod a+x ${D}${sysconfdir}/init.d/sigma-loader
+}
+
+FILES_${PN} += "${sbindir}/sigma_loader"
+FILES_${PN} += "${sysconfdir}/sigma-dsp/firmware/default.xml"
+
+inherit autotools pkgconfig update-rc.d
+
+RDEPENDS_${PN} = "initscripts"
+CONFFILES_${PN} += "${sysconfdir}/init.d/sigma-loader"
+
+
