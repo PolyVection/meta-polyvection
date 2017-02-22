@@ -11,6 +11,7 @@ SRCBRANCH = "master"
 SRCREV = "${AUTOREV}"
 SRC_URI = 	"git://github.com/polyvection/sigma-loader.git;branch=${SRCBRANCH} "
 SRC_URI += "file://default.xml"
+SRC_URI += "file://ain-2chout.xml"
 SRC_URI += "file://sigma-loader.in"
 
 S = "${WORKDIR}/git"
@@ -28,6 +29,7 @@ do_install_append () {
 
 	install -d ${D}${sysconfdir}/sigma-dsp/firmware
 	install -m 0755 ${WORKDIR}/default.xml ${D}${sysconfdir}/sigma-dsp/firmware/
+	install -m 0755 ${WORKDIR}/ain-2chout.xml ${D}${sysconfdir}/sigma-dsp/firmware/
 
 	install -d ${D}${sysconfdir}/init.d
 	install -m 0755 ${WORKDIR}/sigma-loader.in ${D}${sysconfdir}/init.d/sigma-loader
@@ -36,6 +38,7 @@ do_install_append () {
 
 FILES_${PN} += "${sbindir}/sigma_loader"
 FILES_${PN} += "${sysconfdir}/sigma-dsp/firmware/default.xml"
+FILES_${PN} += "${sysconfdir}/sigma-dsp/firmware/ain-2chout.xml"
 
 inherit autotools pkgconfig update-rc.d
 
