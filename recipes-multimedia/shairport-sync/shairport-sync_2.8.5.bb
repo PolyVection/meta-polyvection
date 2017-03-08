@@ -1,6 +1,6 @@
 
 DESCRIPTION = "Shairport-Sync - AirPlay audio player"
-DEPENDS = "libdaemon libconfig popt"
+DEPENDS = "libdaemon libconfig popt avahi"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSES;md5=926dc741301c0ecd801c957fa35c097a"
 

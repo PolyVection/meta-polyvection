@@ -70,7 +70,7 @@ do_start() {
 		;;
 	*)
 		echo "Starting $DESC ..."
-		exec $DAEMON $DAEMON_ARGS >/dev/null 2>&1 || status=$?
+		exec $DAEMON $DAEMON_ARGS & >/dev/null 2>&1 || status=$?
 		echo "ERROR: Failed to start $DESC."
 		exit $status
 		;;
