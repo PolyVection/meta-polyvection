@@ -375,7 +375,7 @@ IMAGE_TYPEDEP_sdcard += " \
 "
 
 my_postprocess_function() {
-   cp ${DEPLOY_DIR_IMAGE}/zImage-imx6ull-polydsp1.dtb ${IMAGE_ROOTFS}/boot/imx6ull-polydsp1.dtb
+   cp ${DEPLOY_DIR_IMAGE}/zImage-imx6ull-voltastream0.dtb ${IMAGE_ROOTFS}/boot/imx6ull-voltastream0.dtb
    echo ${DISTRO_VERSION} > ${IMAGE_ROOTFS}/polyos_version
    echo " " > ${IMAGE_ROOTFS}/etc/motd
    echo "PolyOS ${DISTRO_VERSION}" >> ${IMAGE_ROOTFS}/etc/motd

@@ -5,7 +5,7 @@ PREFERRED_PROVIDER_u-boot_mx6ul = "u-boot-imx-pv"
 PREFERRED_PROVIDER_u-boot_mx7 = "u-boot-imx"
 
 PREFERRED_PROVIDER_virtual/bootloader_mx6 = "u-boot-imx"
-PREFERRED_PROVIDER_virtual/bootloader_mx6ul = "u-boot-imx-pv"
+PREFERRED_PROVIDER_virtual/bootloader_mx6ul = "u-boot-pv"
 PREFERRED_PROVIDER_virtual/bootloader_mx7 = "u-boot-imx"
 
 PREFERRED_PROVIDER_virtual/kernel_mx6 = "linux-imx"

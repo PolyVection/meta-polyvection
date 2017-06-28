@@ -30,8 +30,8 @@ S = "${WORKDIR}/git"
 
 do_preconfigure_prepend() {
    # copy latest defconfig for imx_v7_defoonfig to use
-   cp ${S}/arch/arm/configs/polyvection_defconfig ${WORKDIR}/.config
-   cp ${S}/arch/arm/configs/polyvection_defconfig ${WORKDIR}/defconfig
+   cp ${S}/arch/arm/configs/imx_v7_PV_defconfig ${WORKDIR}/.config
+   cp ${S}/arch/arm/configs/imx_v7_PV_defconfig ${WORKDIR}/defconfig
 }
 
 KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"
