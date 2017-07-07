@@ -1,4 +1,4 @@
-DISTRO_REMOTE = "${@os.popen('curl https://polymote.com/software/polyos/coreamp1/latest_version -s | cut -d. -f4').read().rstrip('\n')}"
+DISTRO_REMOTE = "${@os.popen('curl https://polyvection.com/software/polyos/voltastream0/polyos_latest_version -s | cut -d. -f4').read().rstrip('\n')}"
 DISTRO_NEXT = "${@${DISTRO_REMOTE} + 1}"
 
 DISTRO = "polycore-imx"

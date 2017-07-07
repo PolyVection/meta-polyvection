@@ -1,6 +1,6 @@
 #!/bin/sh
 
-URL_BASE="https://polymote.com/software/polyos/coreamp1"
+URL_BASE="https://polyvection.com/software/polyos/voltastream0"
 WORKING_DIR="/mnt/update"
 ACTIVE_BANK=`fw_printenv swbank | cut -d= -f2` 
 INACTIVE_BANK=0
@@ -37,7 +37,7 @@ function run_update {
    echo " "
    echo "Step 2 - fetching update"
    echo "--------------------------------------------"    
-   DL_URL=`cat polyos_${UPDATE_OS}.link`
+   DL_URL=`cat polyos_${UPDATE_OS}_update.link`
    wget -q --show-progress ${DL_URL}  
    
    echo " "
@@ -45,8 +45,8 @@ function run_update {
    echo "Step 3 - verifying download"
    echo "--------------------------------------------" 
    echo "Verifying..."
-   DL_SUM=`sha256sum polyos_${UPDATE_OS}.tar.bz2 | cut -d " " -f1`
-   REMOTE_SUM=`cat polyos_${UPDATE_OS}.chksum`
+   DL_SUM=`sha256sum polyos_${UPDATE_OS}_update.tar.bz2 | cut -d " " -f1`
+   REMOTE_SUM=`cat polyos_${UPDATE_OS}_update.sha256`
    #echo "Remote checksum: ${REMOTE_SUM}"
    #echo "Downld checksum: ${DL_SUM}"
  
@@ -55,7 +55,7 @@ function run_update {
    else
 	echo "Verification FAILED"
 	echo "ABORTING!"
-	rm polyos_${UPDATE_OS}.tar.bz2
+	rm polyos_${UPDATE_OS}_update.tar.bz2
 	exit 1                                              
    fi       
                                                       
@@ -77,7 +77,7 @@ function run_update {
    fi
    sync
    echo "Unpacking update... (will take some time)"
-   tar xf polyos_${UPDATE_OS}.tar.bz2 -C /mnt/update/mount --warning=no-timestamp
+   tar xf polyos_${UPDATE_OS}_update.tar.bz2 -C /mnt/update/mount --warning=no-timestamp
    sync
    echo "DONE"
 
@@ -105,15 +105,15 @@ echo "Step 1 - searching for updates"
 echo "--------------------------------------------"
 echo "Current PolyOS version: ${CURRENT_OS}"
  
-wget -q ${URL_BASE}/latest_version
+wget -q ${URL_BASE}/polyos_latest_version
 
 UPDATE_OS=`cat latest_version`   
 echo "Available PolyOS update: ${UPDATE_OS}" 
 echo " "
 
-wget -q ${URL_BASE}/polyos_${UPDATE_OS}.link
-wget -q ${URL_BASE}/polyos_${UPDATE_OS}.chksum
-wget -q ${URL_BASE}/polyos_${UPDATE_OS}.txt
+wget -q ${URL_BASE}/polyos_${UPDATE_OS}_update.link
+wget -q ${URL_BASE}/polyos_${UPDATE_OS}_update.sha256
+wget -q ${URL_BASE}/polyos_${UPDATE_OS}_changelog.txt
 
 read -p "Press Y to install or N to abort: " -n 1 -r
 echo " "

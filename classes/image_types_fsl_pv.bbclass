@@ -176,6 +176,11 @@ RFSA_RFS1_RFS2		= "1004000"
 DATAFS_SIZE 		= "500000"
 RFSA_RFS1_RFS2_DFS	= "1504000"
 
+POLYOS_FOLDER = "${DEPLOY_DIR_IMAGE}/_PolyOS_release"
+POLYOS_VER = "${DEPLOY_DIR_IMAGE}/_PolyOS_release/${DISTRO_VERSION}"
+POLYOS_VER_REL = "${DEPLOY_DIR_IMAGE}/_PolyOS_release/${DISTRO_VERSION}/release"
+REL_URL = "https://github.com/polyvection/meta-polyvection/releases/download/${DISTRO_VERSION}"
+
 generate_imx_sdcard () {
 
 	# Create partition table
@@ -238,13 +243,83 @@ generate_imx_sdcard () {
 	# dd if=${SDCARD_ROOTFS} of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${RFSA_RFS1} \* 1024)
 	dd if=${WORKDIR}/data.img of=${SDCARD} conv=notrunc,fsync seek=1 bs=$(expr ${RFSA_RFS1_RFS2} \* 1024)
 
-	mkdir -p ${DEPLOY_DIR_IMAGE}/_PolyOS_release
-	cp ${SDCARD_ROOTFS} ${DEPLOY_DIR_IMAGE}/_PolyOS_release/polyos_${DISTRO_VERSION}.ext4
-	tar -cjvf ${DEPLOY_DIR_IMAGE}/_PolyOS_release/polyos_${DISTRO_VERSION}.tar.bz2 -C ${IMAGE_ROOTFS} .
-	DL_SUM=`sha256sum ${DEPLOY_DIR_IMAGE}/_PolyOS_release/polyos_${DISTRO_VERSION}.tar.bz2 | cut -d " " -f1`
-	echo ${DL_SUM} > ${DEPLOY_DIR_IMAGE}/_PolyOS_release/polyos_${DISTRO_VERSION}.chksum
-	echo ${DISTRO_VERSION} > ${DEPLOY_DIR_IMAGE}/_PolyOS_release/latest_version
-	echo "https://polymote.com/software/polyos/coreamp1/polyos_${DISTRO_VERSION}.tar.bz2" > ${DEPLOY_DIR_IMAGE}/_PolyOS_release/polyos_${DISTRO_VERSION}.link
+#
+#
+#	GENERATE POLYOS IMAGES AND CHKSUMS
+#
+#
+
+	# Create PolyOS release folder
+	
+	mkdir -p ${POLYOS_FOLDER}
+	
+	# Create subfolder for version
+	
+	mkdir -p ${POLYOS_VER}
+	
+	# Create subfolder for compressed files
+	
+	mkdir -p ${POLYOS_VER_REL}
+
+	
+
+	###### GENERATE UPDATE ######
+
+	# Compress PolyOS rootfs-only for updater as polyos_x.x.x.x_update.tar.bz2
+	tar -cjvf ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_update.tar.bz2 \
+		-C ${IMAGE_ROOTFS} .
+
+	# Generate sha256 for polyos_x.x.x.x_update.tar.bz2
+	DL_SUM=`sha256sum ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_update.tar.bz2 | cut -d " " -f1`
+	
+	# Write sha256 for polyos_x.x.x.x_update.tar.bz2 to polyos_x.x.x.x_update.sha256
+	echo ${DL_SUM} > ${POLYOS_VER}/polyos_${DISTRO_VERSION}_update.sha256
+
+	
+
+	###### GENERATE FLASHABLE SDIMG ######
+	
+	# Remove old zip
+	rm -f ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.zip
+	
+	# Compress SDCARD image to polyos_x.x.x.x_sdcard.zip
+	zip -r ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.zip \
+		${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sdcard
+
+	# Generate sha256 for polyos_x.x.x.x_sdcard.tar.bz2
+	DL_SUM=`sha256sum ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.zip | cut -d " " -f1`
+
+	# Write sha256 for polyos_x.x.x.x_sdcard.zip to polyos_x.x.x.x_update.sha256
+	echo ${DL_SUM} > ${POLYOS_VER}/polyos_${DISTRO_VERSION}_sdcard.sha256
+	
+	
+
+	###### GERERATE LINKS ######
+	
+	# Write new PolyOS version string to latest_version_version
+	echo ${DISTRO_VERSION} > ${POLYOS_VER}/polyos_latest_version
+
+	# Write link for polyos_x.x.x.x_update.tar.bz2 to polyos_x.x.x.x_update.link
+	echo "${REL_URL}/polyos_${DISTRO_VERSION}_update.tar.bz2" > \
+		${POLYOS_VER}/polyos_${DISTRO_VERSION}_update.link
+
+	# Write link for polyos_x.x.x.x_sdcard.zip to polyos_x.x.x.x_sdcard.link
+	echo "${REL_URL}/polyos_${DISTRO_VERSION}_sdcard.zip" > \
+		${POLYOS_VER}/polyos_${DISTRO_VERSION}_sdcard.link
+
+	# Write link for latest_update to latest_update.link
+	echo "${REL_URL}/polyos_${DISTRO_VERSION}_update.tar.bz2" > \
+		${POLYOS_VER}/polyos_latest_update.link
+
+	# Write link for latest_sdcard to latest_sdcard.link
+	echo "${REL_URL}/polyos_${DISTRO_VERSION}_sdcard.zip" > \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+
+	# Write link for changelog to polyos_x.x.x.x_changelog.txt
+	echo "PolyOS ${DISTRO_VERSION} - Initial Release" > \
+		${POLYOS_VER}/polyos_${DISTRO_VERSION}_changelog.txt
+
+	
 }
 
 #
