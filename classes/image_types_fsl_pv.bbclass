@@ -281,10 +281,16 @@ generate_imx_sdcard () {
 	
 	# Remove old zip
 	rm -f ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.zip
+
+	# Temp copy of .rootfs.sdcard
+	cp ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sdcard ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.img
 	
 	# Compress SDCARD image to polyos_x.x.x.x_sdcard.zip
-	zip -r ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.zip \
-		${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sdcard
+	zip -j ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.zip \
+		${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.img
+	
+	# Remove Temp copy of .rootfs.sdcard
+	rm -f ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.img
 
 	# Generate sha256 for polyos_x.x.x.x_sdcard.tar.bz2
 	DL_SUM=`sha256sum ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.zip | cut -d " " -f1`
