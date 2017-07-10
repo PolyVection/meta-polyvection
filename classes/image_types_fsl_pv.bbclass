@@ -179,7 +179,8 @@ RFSA_RFS1_RFS2_DFS	= "1504000"
 POLYOS_FOLDER = "${DEPLOY_DIR_IMAGE}/_PolyOS_release"
 POLYOS_VER = "${DEPLOY_DIR_IMAGE}/_PolyOS_release/${DISTRO_VERSION}"
 POLYOS_VER_REL = "${DEPLOY_DIR_IMAGE}/_PolyOS_release/${DISTRO_VERSION}/release"
-REL_URL = "https://github.com/polyvection/meta-polyvection/releases/download/${DISTRO_VERSION}"
+REL_URL_GH = "https://github.com/polyvection/meta-polyvection/releases/download/${DISTRO_VERSION}"
+REL_URL_PV = "https://polyvection.com/software/polyos/voltastream0"
 
 generate_imx_sdcard () {
 
@@ -306,19 +307,19 @@ generate_imx_sdcard () {
 	echo ${DISTRO_VERSION} > ${POLYOS_VER}/polyos_latest_version
 
 	# Write link for polyos_x.x.x.x_update.tar.bz2 to polyos_x.x.x.x_update.link
-	echo "${REL_URL}/polyos_${DISTRO_VERSION}_update.tar.bz2" > \
+	echo "${REL_URL_PV}/polyos_${DISTRO_VERSION}_update.tar.bz2" > \
 		${POLYOS_VER}/polyos_${DISTRO_VERSION}_update.link
 
 	# Write link for polyos_x.x.x.x_sdcard.zip to polyos_x.x.x.x_sdcard.link
-	echo "${REL_URL}/polyos_${DISTRO_VERSION}_sdcard.zip" > \
+	echo "${REL_URL_PV}/polyos_${DISTRO_VERSION}_sdcard.zip" > \
 		${POLYOS_VER}/polyos_${DISTRO_VERSION}_sdcard.link
 
 	# Write link for latest_update to latest_update.link
-	echo "${REL_URL}/polyos_${DISTRO_VERSION}_update.tar.bz2" > \
+	echo "${REL_URL_PV}/polyos_${DISTRO_VERSION}_update.tar.bz2" > \
 		${POLYOS_VER}/polyos_latest_update.link
 
 	# Write link for latest_sdcard to latest_sdcard.link
-	echo "${REL_URL}/polyos_${DISTRO_VERSION}_sdcard.zip" > \
+	echo "${REL_URL_PV}/polyos_${DISTRO_VERSION}_sdcard.zip" > \
 		${POLYOS_VER}/polyos_latest_sdcard.link
 
 	# Write link for changelog to polyos_x.x.x.x_changelog.txt

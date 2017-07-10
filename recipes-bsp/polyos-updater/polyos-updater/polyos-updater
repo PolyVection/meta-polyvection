@@ -39,8 +39,9 @@ function run_update {
    echo "--------------------------------------------"    
    DL_URL=`cat polyos_${UPDATE_OS}_update.link`
    #echo ${DL_URL}
-   wget -q --show-progress ${DL_URL}  
-   
+   #wget -q --show-progress ${DL_URL}  
+   curl --progress-bar -O ${DL_URL}
+
    echo " "
    echo " "
    echo "Step 3 - verifying download"
@@ -106,15 +107,15 @@ echo "Step 1 - searching for updates"
 echo "--------------------------------------------"
 echo "Current PolyOS version: ${CURRENT_OS}"
  
-wget -q ${URL_BASE}/polyos_latest_version
+curl -O -s ${URL_BASE}/polyos_latest_version
 
 UPDATE_OS=`cat polyos_latest_version`   
 echo "Available PolyOS update: ${UPDATE_OS}" 
 echo " "
 
-wget -q ${URL_BASE}/polyos_${UPDATE_OS}_update.link
-wget -q ${URL_BASE}/polyos_${UPDATE_OS}_update.sha256
-wget -q ${URL_BASE}/polyos_${UPDATE_OS}_changelog.txt
+curl -O -s ${URL_BASE}/polyos_${UPDATE_OS}_update.link
+curl -O -s ${URL_BASE}/polyos_${UPDATE_OS}_update.sha256
+curl -O -s ${URL_BASE}/polyos_${UPDATE_OS}_changelog.txt
 
 read -p "Press Y to install or N to abort: " -n 1 -r
 echo " "

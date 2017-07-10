@@ -6,7 +6,7 @@ IMAGE_INSTALL += " \
 	kernel-modules \
 	" 
 IMAGE_FEATURES += " ssh-server-openssh"
-IMAGE_INSTALL_append = " u-boot-fw-utils-pv alsa-utils usbutils i2c-tools wpa-supplicant iperf polyos-wifi shairport-sync ntp polyos-updater fsl-alsa-plugins libxml2-dev alsa-asound iw wireless-firmware-rtl kernel-module-rtl8192eu"
+IMAGE_INSTALL_append = " u-boot-fw-utils-pv alsa-utils usbutils i2c-tools wpa-supplicant iperf polyos-wifi shairport-sync ntp polyos-updater fsl-alsa-plugins libxml2-dev alsa-asound iw wireless-firmware-rtl curl"
 
 DISTRO_FEATURES_remove = "gtk+ gtk+3 pulseaudio"
 #DISTRO_FEATURES_append = " pulseaudio"
