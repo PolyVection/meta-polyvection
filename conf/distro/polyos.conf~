@@ -18,7 +18,6 @@ SDK_VERSION[vardepsexclude] = "DATE"
 POKY_DEFAULT_DISTRO_FEATURES = "largefile opengl ptest multiarch wayland"
 POKY_DEFAULT_EXTRA_RDEPENDS = "packagegroup-core-boot"
 POKY_DEFAULT_EXTRA_RRECOMMENDS = "kernel-module-af-packet"
-IMAGE_FSTYPES = "tar.bz2 ext4 sdcard"
 
 DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC} ${POKY_DEFAULT_DISTRO_FEATURES}"
 
@@ -29,21 +28,6 @@ PREFERRED_VERSION_linux-yocto_qemuarm ?= "4.10%"
 PREFERRED_VERSION_linux-yocto_qemumips ?= "4.10%"
 PREFERRED_VERSION_linux-yocto_qemumips64 ?= "4.10%"
 PREFERRED_VERSION_linux-yocto_qemuppc ?= "4.10%"
-
-PREFERRED_PROVIDER_u-boot_mx6ul = "u-boot-pv"
-PREFERRED_PROVIDER_virtual/bootloader_mx6ul = "u-boot-pv"
-PREFERRED_PROVIDER_virtual/kernel_mx6ul = "linux-imx-pv"
-MACHINE_GSTREAMER_1_0_PLUGIN_mx6ul = "imx-gst1.0-plugin"
-MACHINE_EXTRA_RRECOMMENDS_append_mx6ul = " ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'imx-alsa-plugins', '', d)}"
-DEFAULTTUNE_mx6ul = "cortexa7hf-neon"
-PREFERRED_VERSION_linux-libc-headers = "4.1"
-
-# Use systemd as default init manager - comment out for now
-#VIRTUAL-RUNTIME_init_manager = "systemd"
-#PREFERRED_PROVIDER_udev = "systemd"
-#PREFERRED_PROVIDER_udev-utils = "systemd"
-#DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
-#IMX_DEFAULT_DISTRO_FEATURES += " systemd"
 
 SDK_NAME = "${DISTRO}-${TCLIBC}-${SDK_ARCH}-${IMAGE_BASENAME}-${TUNE_PKGARCH}"
 SDKPATH = "/opt/${DISTRO}/${SDK_VERSION}"

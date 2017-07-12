@@ -22,7 +22,7 @@ IMAGE_FEATURES += " ssh-server-openssh"
 IMAGE_INSTALL_append +=" \
 	wpa-supplicant \
 	polyos-wifi \
-	iperf3 \
+	iperf \
 	ntp \
 	iw \
 	wireless-firmware-rtl \

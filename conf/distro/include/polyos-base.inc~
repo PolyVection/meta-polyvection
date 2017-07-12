@@ -89,7 +89,7 @@ BB_SIGNATURE_HANDLER ?= 'OEBasicHash'
 # that breaks the format and have been previously discussed on the mailing list
 # with general agreement from the core team.
 #
-OELAYOUT_ABI = "12"
+OELAYOUT_ABI = "11"
 
 # add poky sanity bbclass
 INHERIT += "poky-sanity"
