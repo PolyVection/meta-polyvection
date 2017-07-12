@@ -1,0 +1,52 @@
+sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
+     build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
+     xz-utils debianutils iputils-ping
+sudo apt-get install device-tree-compiler
+sudo apt-get install u-boot-tools
+
+mkdir yocto-polyos
+cd yocto-polyos
+mkdir sources
+cd sources
+git clone -b pyro git://git.yoctoproject.org/poky.git
+git clone -b pyro https://github.com/Freescale/meta-freescale.git
+git clone -b pyro https://github.com/openembedded/meta-openembedded.git
+git clone -b pyro https://github.com/PolyVection/meta-polyvection.git
+
+cd ..
+source sources/poky/oe-init-build-env build
+
+local.conf ->
+MACHINE = "voltastream0"
+DISTRO = "polyos"
+BSPDIR := "${@os.path.abspath(os.path.dirname(d.getVar('FILE', True)) + '/../..')}"
+DL_DIR ?= "${BSPDIR}/downloads"
+SSTATE_DIR ?= "${BSPDIR}/sstate-cache"
+BB_NUMBER_THREADS = "10"
+PARALLEL_MAKE = "-j 10"
+
+bblayers.conf ->
+# POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+POKY_BBLAYERS_CONF_VERSION = "2"
+
+BBPATH = "${TOPDIR}"
+BSPDIR := "${@os.path.abspath(os.path.dirname(d.getVar('FILE', True)) + '/../..')}"
+BBFILES ?= ""
+
+BBLAYERS ?= " \
+  /home/poly/dev/yocto-polyos/sources/poky/meta \
+  /home/poly/dev/yocto-polyos/sources/poky/meta-poky \
+  /home/poly/dev/yocto-polyos/sources/poky/meta-yocto-bsp \
+  "
+
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-oe "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-networking "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-multimedia "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-filesystems "
+BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-python "
+BBLAYERS += " ${BSPDIR}/sources/meta-polyvection "
+BBLAYERS += " ${BSPDIR}/sources/meta-freescale "
+
+bitbake polyos-image
+
