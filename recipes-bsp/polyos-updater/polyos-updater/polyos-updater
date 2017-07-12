@@ -79,7 +79,7 @@ function run_update {
    fi
    sync
    echo "Unpacking update... (will take some time)"
-   tar xf polyos_${UPDATE_OS}_update.tar.bz2 -C /mnt/update/mount --warning=no-timestamp
+   pv polyos_${UPDATE_OS}_update.tar.bz2 | tar xf - -C /mnt/update/mount --warning=no-timestamp -j
    sync
    echo "DONE"
 

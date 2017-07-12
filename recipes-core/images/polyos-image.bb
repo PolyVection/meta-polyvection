@@ -1,16 +1,72 @@
 include recipes-core/images/core-image-minimal.bb
-#include recipes-fsl/packagegroups/packagegroup-fsl-tools-bluetooth.bb
 
-# Include modules in rootfs
+######################
+### KERNEL MODULES ###
+######################
+
 IMAGE_INSTALL += " \
 	kernel-modules \
 	" 
+
+################
+### FEATURES ###
+################
+
 IMAGE_FEATURES += " ssh-server-openssh"
-IMAGE_INSTALL_append = " u-boot-fw-utils-pv alsa-utils usbutils i2c-tools wpa-supplicant iperf polyos-wifi shairport-sync ntp polyos-updater fsl-alsa-plugins libxml2-dev alsa-asound iw wireless-firmware-rtl curl"
 
-DISTRO_FEATURES_remove = "gtk+ gtk+3 pulseaudio"
-#DISTRO_FEATURES_append = " pulseaudio"
 
-# Add extra space to the rootfs image  
-#IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 20000"  
-IMAGE_ROOTFS_SIZE = "490000"
+###############
+### NETWORK ###
+###############
+
+IMAGE_INSTALL_append +=" \
+	wpa-supplicant \
+	polyos-wifi \
+	iperf \
+	ntp \
+	iw \
+	wireless-firmware-rtl \
+	curl \
+	"
+
+
+#############
+### AUDIO ###
+#############
+
+IMAGE_INSTALL_append +=" \
+	alsa-utils \
+	alsa-asound \
+	fsl-alsa-plugins \
+	"
+
+
+#################
+### STREAMING ###
+#################
+
+IMAGE_INSTALL_append +=" \
+	shairport-sync \
+	"
+
+
+##############
+### SYSTEM ###
+##############
+
+IMAGE_INSTALL_append +=" \
+	pv \
+	libxml2-dev \
+	usbutils \
+	i2c-tools \
+	u-boot-fw-utils-pv \
+	polyos-updater \
+	"
+
+#################
+### ROOT SIZE ###
+#################
+
+IMAGE_ROOTFS_SIZE = "490000" 
+
+
