@@ -1,6 +1,6 @@
 
 DESCRIPTION = "Shairport-Sync - AirPlay audio player"
-DEPENDS = "libdaemon libconfig popt avahi"
+DEPENDS = "libdaemon libconfig popt avahi alsa-utils alsa-lib"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSES;md5=07500f0fdc8de2e270a9f0b8b1857ecd"
 
@@ -26,7 +26,7 @@ do_compile_prepend() {
 }
 
 EXTRA_OECONF_append = " --sysconfdir=/etc --with-alsa --with-avahi --with-ssl=openssl --with-metadata --with-systemv"
-RDEPENDS_${PN} = "alsa-lib openssl popt initscripts avahi-daemon"
+RDEPENDS_${PN} = "openssl popt initscripts avahi-daemon"
 
 inherit autotools pkgconfig update-rc.d
 

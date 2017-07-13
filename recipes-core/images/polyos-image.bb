@@ -59,14 +59,16 @@ IMAGE_INSTALL_append +=" \
 	libxml2-dev \
 	usbutils \
 	i2c-tools \
-	u-boot-fw-utils-pv \
 	polyos-updater \
+	u-boot-fw-utils-pv \
 	"
+#u-boot-fw-utils-pv
 
 #################
 ### ROOT SIZE ###
 #################
 
 IMAGE_ROOTFS_SIZE = "490000" 
+
 
 

@@ -2,7 +2,7 @@ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
      build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
      xz-utils debianutils iputils-ping
 sudo apt-get install device-tree-compiler
-sudo apt-get install u-boot-tools
+sudo apt-get install u-boot-tools curl
 
 mkdir yocto-polyos
 cd yocto-polyos
