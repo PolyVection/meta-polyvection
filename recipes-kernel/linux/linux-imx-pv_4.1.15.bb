@@ -19,7 +19,7 @@ SRC_URI[md5sum] = "054be7c35a8e298c6cbe6cee73096e45"
 DEPENDS += "lzop-native bc-native"
 
 SRCBRANCH = "imx_4.1.15_2.1.0_ga_PV"
-LOCALVERSION = "-PV1_2.1.0"
+LOCALVERSION = "-pv-2.1.0"
 SRCREV = "${AUTOREV}"
 KERNEL_SRC ?= "git://github.com/PolyVection/linux-imx.git;protocol=https"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"

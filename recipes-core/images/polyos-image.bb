@@ -27,6 +27,7 @@ IMAGE_INSTALL_append +=" \
 	iw \
 	wireless-firmware-rtl \
 	curl \
+	hostapd \
 	"
 
 

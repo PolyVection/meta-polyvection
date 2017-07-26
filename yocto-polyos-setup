@@ -1,31 +1,51 @@
-sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
+#!/bin/bash
+
+# PolyOS setup script
+# Depends on a fresh install of Ubuntu 16.04 with user "poly".
+# User "poly" is important as some things are currently hard-coded.
+# Once You have installed Ubuntu and logged in with user "poly" open the terminal and type:
+# 
+# mkdir -p ~/dev/yocto-polyos/sources/
+# cd ~/dev/yocto-polyos/sources/
+# git clone -b pyro https://github.com/PolyVection/meta-polyvection.git
+# cd meta-polyvection
+# chmod +x yocto-polyos-setup
+# . yocto-polyos-setup
+# 
+# When everything is finished just type
+#
+# bitbake polyos-image
+#  
+# When finished you will find the sdcard image in ~/dev/yocto-polyos/build/tmp/deploy/images...
+#
+
+
+sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
      build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
-     xz-utils debianutils iputils-ping
-sudo apt-get install device-tree-compiler
-sudo apt-get install u-boot-tools curl
+     xz-utils debianutils iputils-ping device-tree-compiler u-boot-tools curl
 
-mkdir yocto-polyos
-cd yocto-polyos
-mkdir sources
-cd sources
-git clone -b pyro git://git.yoctoproject.org/poky.git
-git clone -b pyro https://github.com/Freescale/meta-freescale.git
-git clone -b pyro https://github.com/openembedded/meta-openembedded.git
-git clone -b pyro https://github.com/PolyVection/meta-polyvection.git
+git clone -b pyro git://git.yoctoproject.org/poky.git ~/dev/yocto-polyos/sources/poky
+git clone -b pyro https://github.com/Freescale/meta-freescale.git ~/dev/yocto-polyos/sources/meta-freescale
+git clone -b pyro https://github.com/openembedded/meta-openembedded.git ~/dev/yocto-polyos/sources/meta-openembedded
 
-cd ..
+cd ~/dev/yocto-polyos/
 source sources/poky/oe-init-build-env build
 
-local.conf ->
+LOCAL_CONF="/home/poly/dev/yocto-polyos/build/conf/local.conf"
+BB_LAYERS="/home/poly/dev/yocto-polyos/build/conf/bblayers.conf"
+
+cat > $LOCAL_CONF <<'EOF'
 MACHINE = "voltastream0"
 DISTRO = "polyos"
 BSPDIR := "${@os.path.abspath(os.path.dirname(d.getVar('FILE', True)) + '/../..')}"
 DL_DIR ?= "${BSPDIR}/downloads"
 SSTATE_DIR ?= "${BSPDIR}/sstate-cache"
-BB_NUMBER_THREADS = "10"
-PARALLEL_MAKE = "-j 10"
+BB_NUMBER_THREADS = "6"
+PARALLEL_MAKE = "-j 6"
+EOF
 
-bblayers.conf ->
+
+cat >$BB_LAYERS <<'EOF'
 # POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
 # changes incompatibly
 POKY_BBLAYERS_CONF_VERSION = "2"
@@ -47,6 +67,7 @@ BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-filesystems "
 BBLAYERS += " ${BSPDIR}/sources/meta-openembedded/meta-python "
 BBLAYERS += " ${BSPDIR}/sources/meta-polyvection "
 BBLAYERS += " ${BSPDIR}/sources/meta-freescale "
+EOF
 
-bitbake polyos-image
+#bitbake polyos-image
 
