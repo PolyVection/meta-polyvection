@@ -42,6 +42,7 @@ DL_DIR ?= "${BSPDIR}/downloads"
 SSTATE_DIR ?= "${BSPDIR}/sstate-cache"
 BB_NUMBER_THREADS = "6"
 PARALLEL_MAKE = "-j 6"
+EXTRA_IMAGE_FEATURES = "debug-tweaks"
 EOF
 
 
