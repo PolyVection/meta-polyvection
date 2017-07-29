@@ -1,35 +1,19 @@
-# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
- 
-# The loopback interface
 auto lo
 iface lo inet loopback
- 
- 
-# Wireless interfaces
+
+auto eth0
+iface eth0 inet dhcp
+
 auto wlan0
 iface wlan0 inet dhcp
   wireless_mode managed
   wireless_essid any
-  # wpa-driver nl80211 /* not supported by out-of-tree rtl driver */
-  wpa-driver wext /* not supported by in-tree driver for rtl8192cu */
+  wpa-driver wext
   wpa-conf /mnt/data/settings/wireless/wifi.conf
+
+# allow-hotplug wlan0
+# iface wlan0 inet static
+# address 192.168.42.1
+# netmask 255.255.255.0
  
- 
-iface atml0 inet dhcp
- 
- 
-# Wired or wireless interfaces
-auto eth0
-iface eth0 inet dhcp
- 
-# Ethernet/RNDIS gadget (g_ether)
-# ... or on host side, usbnet and random hwaddr
-iface usb0 inet static
-  address 192.168.7.2
-  netmask 255.255.255.0
-  network 192.168.7.0
-  gateway 192.168.7.1
- 
- 
-# Bluetooth networking
-iface bnep0 inet dhcp
+

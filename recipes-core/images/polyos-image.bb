@@ -27,8 +27,10 @@ IMAGE_INSTALL_append +=" \
 	ntp \
 	iw \
 	wireless-firmware-rtl \
+	wireless-firmware-mt \
 	curl \
-	hostapd \
+	hostapd-rtl \
+	dhcp-server \
 	"
 
 
