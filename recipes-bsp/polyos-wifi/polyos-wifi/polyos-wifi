@@ -29,7 +29,6 @@ echo 'id_str="0"' >> wifi.conf
 echo '}' >> wifi.conf                                                           
 echo >> wifi.conf                                                               
                                                                                 
-ifdown wlan0                                                                    
-ifup wlan0                                                                      
+systemctl restart wpa-wlan0.service                                                                    
                                                                                 
 fi 

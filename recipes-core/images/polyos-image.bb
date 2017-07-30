@@ -31,6 +31,8 @@ IMAGE_INSTALL_append +=" \
 	curl \
 	hostapd-rtl \
 	dhcp-server \
+	systemd-network \
+	systemd-wlan0 \
 	"
 
 
@@ -66,8 +68,8 @@ IMAGE_INSTALL_append +=" \
 	i2c-tools \
 	polyos-updater \
 	u-boot-fw-utils-pv \
+	systemd-serialgetty \
 	"
-#u-boot-fw-utils-pv
 
 #################
 ### ROOT SIZE ###
