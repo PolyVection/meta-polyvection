@@ -396,6 +396,11 @@ my_postprocess_function() {
    echo " " > ${IMAGE_ROOTFS}/etc/motd
    echo "PolyOS ${DISTRO_VERSION}" >> ${IMAGE_ROOTFS}/etc/motd
    echo " " >> ${IMAGE_ROOTFS}/etc/motd
+   echo "" > ${IMAGE_ROOTFS}/etc/shadow.new;
+   sed 's%^root:[^:]*:%root:$1$68/DNc6J$tYRixcyRBumznKiQWiEaq.:%' \
+        < ${IMAGE_ROOTFS}/etc/shadow \
+        > ${IMAGE_ROOTFS}/etc/shadow.new;\
+   mv ${IMAGE_ROOTFS}/etc/shadow.new ${IMAGE_ROOTFS}/etc/shadow ;
 }
 
 ROOTFS_POSTPROCESS_COMMAND_append = " \
