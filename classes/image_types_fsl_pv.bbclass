@@ -402,6 +402,7 @@ my_postprocess_function() {
         > ${IMAGE_ROOTFS}/etc/shadow.new;\
    mv ${IMAGE_ROOTFS}/etc/shadow.new ${IMAGE_ROOTFS}/etc/shadow ;
 }
+#openssl passwd -1 -salt $(openssl rand -base64 6) polyvection
 
 ROOTFS_POSTPROCESS_COMMAND_append = " \
   my_postprocess_function; \
