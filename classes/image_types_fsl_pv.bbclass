@@ -343,12 +343,39 @@ generate_imx_sdcard () {
 		${POLYOS_VER}/polyos_latest_update.link
 
 	# Write link for latest_sdcard to latest_sdcard.link
-	echo "${REL_URL_PV}/polyos_${DISTRO_VERSION}_sdcard.zip" > \
+	echo '<!DOCTYPE HTML>' > \
 		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo '<html lang="en-US">' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo '<head>' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo '<meta charset="UTF-8">' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo '<meta http-equiv="refresh" content="1; url=${REL_URL_PV}/polyos_${DISTRO_VERSION}_sdcard.zip">' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo '<script type="text/javascript">' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo 'window.location.href = "${REL_URL_PV}/polyos_${DISTRO_VERSION}_sdcard.zip"' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo '</script>' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo '<title>Page Redirection</title>' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo '</head>' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo '<body>' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo 'If you are not redirected automatically, follow this <a href="${REL_URL_PV}/polyos_${DISTRO_VERSION}_sdcard.zip">link</a>.' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo '</body>' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+	echo '</html>' >> \
+		${POLYOS_VER}/polyos_latest_sdcard.link
+
 
 	# Write link for changelog to polyos_x.x.x.x_changelog.txt
 	echo "PolyOS ${DISTRO_VERSION} - Initial Release" > \
-		${POLYOS_VER}/polyos_${DISTRO_VERSION}_changelog.txt
+		${POLYOS_VER}/polyos_latest_changelog.txt
 
 	
 }
