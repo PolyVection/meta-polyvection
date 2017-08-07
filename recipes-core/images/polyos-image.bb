@@ -70,6 +70,8 @@ IMAGE_INSTALL_append +=" \
 	polyos-updater \
 	u-boot-fw-utils-pv \
 	systemd-serialgetty \
+	polyos-opensnd \
+	polyos-hostname \
 	"
 
 #################
