@@ -33,6 +33,8 @@ IMAGE_INSTALL_append +=" \
 	dhcp-server \
 	systemd-network \
 	systemd-wlan0 \
+	connman \
+	connman-client \
 	"
 
 
@@ -72,6 +74,8 @@ IMAGE_INSTALL_append +=" \
 	systemd-serialgetty \
 	polyos-opensnd \
 	polyos-hostname \
+	udev \
+	polyos-datapart \
 	"
 
 #################
