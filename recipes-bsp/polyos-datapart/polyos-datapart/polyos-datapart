@@ -6,5 +6,6 @@ if ! [ -d "/mnt/data/settings/wireless/connman" ]; then
         rm -r /var/lib/connman
 fi
 
+mkdir /run/lock
 rm -r /var/lib/connman
 ln -s -f /mnt/data/settings/wireless/connman /var/lib/connman

@@ -292,14 +292,21 @@ generate_imx_sdcard () {
 
 	###### GENERATE UPDATE ######
 
-	# Compress PolyOS rootfs-only for updater as polyos_x.x.x.x_update.tar.bz2
-	cp ${TAR_COL} ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_update.tar.bz2
-	#tar -cjvf ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_update.tar.bz2 -C ${EXT4_COL} .
+	# Remove old tar
+	rm -f ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_update.tar.gz
 
-	# Generate sha256 for polyos_x.x.x.x_update.tar.bz2
-	DL_SUM=`sha256sum ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_update.tar.bz2 | cut -d " " -f1`
+	# Compress EXT4 image to polyos_x.x.x.x_update.tar.gz
+	cp ${COLLECTOR}/polyos-image-voltastream0.ext4 ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_update.ext4
+	tar -zcvf ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_update.tar.gz \
+			${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_update.ext4
+
+	# Remove Temp copy of ext4
+	rm -f ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_update.ext4
+
+	# Generate sha256 for polyos_x.x.x.x_update.tar.gz
+	DL_SUM=`sha256sum ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_update.tar.gz | cut -d " " -f1`
 	
-	# Write sha256 for polyos_x.x.x.x_update.tar.bz2 to polyos_x.x.x.x_update.sha256
+	# Write sha256 for polyos_x.x.x.x_update.tar.gz to polyos_x.x.x.x_update.sha256
 	echo ${DL_SUM} > ${POLYOS_VER}/polyos_${DISTRO_VERSION}_update.sha256
 
 	
@@ -308,6 +315,7 @@ generate_imx_sdcard () {
 	
 	# Remove old zip
 	rm -f ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.zip
+	
 
 	# Temp copy of .rootfs.sdcard
 	cp ${SD_COL} ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.img
@@ -316,7 +324,9 @@ generate_imx_sdcard () {
 	zip -j ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.zip \
 		${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.img
 	
-	# Remove Temp copy of .rootfs.sdcard
+
+
+	# Remove Temp copy of .rootfs.sdcard and ext4
 	rm -f ${POLYOS_VER_REL}/polyos_${DISTRO_VERSION}_sdcard.img
 
 	# Generate sha256 for polyos_x.x.x.x_sdcard.tar.bz2
@@ -331,7 +341,7 @@ generate_imx_sdcard () {
 	echo ${DISTRO_VERSION} > ${POLYOS_VER}/polyos_latest_version
 
 	# Write link for polyos_x.x.x.x_update.tar.bz2 to polyos_x.x.x.x_update.link
-	echo "${REL_URL_PV}/polyos_${DISTRO_VERSION}_update.tar.bz2" > \
+	echo "${REL_URL_PV}/polyos_${DISTRO_VERSION}_update.tar.gz" > \
 		${POLYOS_VER}/polyos_${DISTRO_VERSION}_update.link
 
 	# Write link for polyos_x.x.x.x_sdcard.zip to polyos_x.x.x.x_sdcard.link
@@ -339,7 +349,7 @@ generate_imx_sdcard () {
 		${POLYOS_VER}/polyos_${DISTRO_VERSION}_sdcard.link
 
 	# Write link for latest_update to latest_update.link
-	echo "${REL_URL_PV}/polyos_${DISTRO_VERSION}_update.tar.bz2" > \
+	echo "${REL_URL_PV}/polyos_${DISTRO_VERSION}_update.tar.gz" > \
 		${POLYOS_VER}/polyos_latest_update.link
 
 	# Write link for latest_sdcard to latest_sdcard.link
