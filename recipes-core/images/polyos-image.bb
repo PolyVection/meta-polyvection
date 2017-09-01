@@ -22,7 +22,6 @@ IMAGE_FEATURES += " ssh-server-openssh"
 
 IMAGE_INSTALL_append +=" \
 	wpa-supplicant \
-	polyos-wifi \
 	iperf3 \
 	ntp \
 	iw \
@@ -76,6 +75,7 @@ IMAGE_INSTALL_append +=" \
 	polyos-hostname \
 	udev \
 	polyos-datapart \
+	polyos-setup \
 	"
 
 #################

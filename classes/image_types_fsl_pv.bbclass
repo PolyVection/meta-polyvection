@@ -431,7 +431,11 @@ my_postprocess_function() {
    cp ${ZIMAGE_PV} ${IMAGE_ROOTFS}/boot/zImage
    echo ${DISTRO_VERSION} > ${IMAGE_ROOTFS}/polyos_version
    echo " " > ${IMAGE_ROOTFS}/etc/motd
-   echo "PolyOS ${DISTRO_VERSION}" >> ${IMAGE_ROOTFS}/etc/motd
+   echo "### PolyOS ${DISTRO_VERSION} ###" >> ${IMAGE_ROOTFS}/etc/motd
+   echo " " >> ${IMAGE_ROOTFS}/etc/motd
+   echo "-----------------------------------------------" >> ${IMAGE_ROOTFS}/etc/motd
+   echo "Use polyos-setup to configure WiFi and audio." >> ${IMAGE_ROOTFS}/etc/motd
+   echo "-----------------------------------------------" >> ${IMAGE_ROOTFS}/etc/motd
    echo " " >> ${IMAGE_ROOTFS}/etc/motd
    echo "" > ${IMAGE_ROOTFS}/etc/shadow.new;
    sed 's%^root:[^:]*:%root:$1$68/DNc6J$tYRixcyRBumznKiQWiEaq.:%' \

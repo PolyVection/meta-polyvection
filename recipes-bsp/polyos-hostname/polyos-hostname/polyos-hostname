@@ -8,4 +8,4 @@ echo "Serial DEC: $serial_dec"
 
 echo "Setting Hostname to VoltaStream0-$serial_dec"
 hostname "VoltaStream0-$serial_dec"
-
+echo "VoltaStream0-$serial_dec" > /etc/hostname
