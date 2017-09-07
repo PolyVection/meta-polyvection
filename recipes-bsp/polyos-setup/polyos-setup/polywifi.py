@@ -36,13 +36,15 @@ def scanForNetworks():
     polyterminal.reset("PolyOS - Wireless Connectivity")
     stdout.write("Starting scan\r")
     stdout.flush()
+    subprocess.check_output(["systemctl", "enable", "connman"], stderr=subprocess.STDOUT)
+    subprocess.check_output(["systemctl", "start", "connman"], stderr=subprocess.STDOUT)
     subprocess.check_output(["connmanctl", "enable", "wifi"], stderr=subprocess.STDOUT)
     r = range(4,0,-1)
     for i in r:
         stdout.write("Scanning for networks: %s seconds left \r" % i)
         stdout.flush()
         if i == 4:
-            os.popen("connmanctl scan wifi")
+            subprocess.check_output(["connmanctl", "scan", "wifi"], stderr=subprocess.STDOUT)
         time.sleep(1)
 
     wifi_names = []

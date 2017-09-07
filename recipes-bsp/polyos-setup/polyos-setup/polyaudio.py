@@ -53,8 +53,8 @@ def chooseFTS():
     print("Please select the audio output:")
     print("-----------------------------------------")
     print("")
-    print("0 -\t TOSLINK (S/PDIF)")
-    print("1 -\t ANALOG (DAC)")
+    print("0 -\t TOSLINK (S/PDIF on AMP1)")
+    print("1 -\t ANALOG (AMPLIFIER on AMP1)")
     print("")
     user = input("Enter either 0 or 1 to configure audio output: ")
     if user == "0":

@@ -27,6 +27,7 @@ IMAGE_INSTALL_append +=" \
 	iw \
 	wireless-firmware-rtl \
 	wireless-firmware-mt \
+	wireless-firmware-qcom \
 	curl \
 	hostapd-rtl \
 	dhcp-server \
