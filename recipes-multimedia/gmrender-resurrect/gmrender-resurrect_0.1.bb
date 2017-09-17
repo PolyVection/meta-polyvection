@@ -1,12 +1,12 @@
 
 DESCRIPTION = "Gmedia Renderer - UPNP media renderer"
-DEPENDS = "initscripts libdaemon libconfig libupnp gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav"
+DEPENDS = "initscripts libdaemon libconfig libupnp gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav alsa-lib"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
-SRCREV = "81b3424072a8a68eacb4090b45989deeb8d7e570"
+SRCREV = "f8afaff9a55c7d0693b76a4ff9f98c95632b5586"
 SRC_URI = 	"git://github.com/PolyVection/gmrender-resurrect.git \
 		file://gmediarenderer \
 		file://gmediarenderer.service"
