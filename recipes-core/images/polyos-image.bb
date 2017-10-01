@@ -57,6 +57,7 @@ IMAGE_INSTALL_append +=" \
 	shairport-sync \
 	librespot \
 	gmrender-resurrect \
+	snapcast \
 	"
 
 
