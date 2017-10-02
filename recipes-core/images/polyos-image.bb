@@ -58,6 +58,7 @@ IMAGE_INSTALL_append +=" \
 	librespot \
 	gmrender-resurrect \
 	snapcast \
+	squeezelite \
 	"
 
 
