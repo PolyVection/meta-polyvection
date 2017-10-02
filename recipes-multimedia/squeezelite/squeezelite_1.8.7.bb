@@ -7,9 +7,11 @@ SRCREV = "58d0892d9bdfc9507e5e099b845585bc065375f6"
 
 S = "${WORKDIR}/git"
 DEPENDS = "alsa-lib flac libvorbis libmad mpg123 faad2"
+RDEPENDS_${PN} = "flac libvorbis libmad mpg123 faad2"
 
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4a6efe45e946fda532470a3da05195c3"
-LDFLAGS += "-lasound -lpthread -lm -lrt -ldl"
+LDFLAGS += "-lasound -lpthread -lm -lrt -ldl -lFLAC -lmad -lvorbisfile -lfaad -lmpg123"
+CFLAGS_append = "-DLINKALL"
 
 FILES_${PN} = "${bindir}/squeezelite"
 
