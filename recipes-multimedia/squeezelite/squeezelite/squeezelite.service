@@ -30,7 +30,7 @@ Type=simple
 
 #User=squeezeuser
 
-ExecStart=/bin/sh -c "/usr/bin/squeezelite -m $(ifconfig -a | grep wlan0 | awk '{print $5}') -a 80 -n %H -V Digital"
+ExecStart=/bin/sh -c "/usr/bin/squeezelite -m $(ifconfig -a | grep wlan0 | awk '{print $5}') -a 80 -n %H -V Digital -C 1"
 Restart=always
 
 [Install]
