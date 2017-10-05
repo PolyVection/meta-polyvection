@@ -22,7 +22,7 @@ do_install() {
         install -m 0755 ${B}/${PN} ${D}${bindir}/
 
     	install -d ${D}${systemd_system_unitdir}
-    	install -m 0755 ${WORKDIR}/squeezelite.service ${D}${systemd_system_unitdir}
+    	install -m 0644 ${WORKDIR}/squeezelite.service ${D}${systemd_system_unitdir}
 }
 
 SYSTEMD_SERVICE_${PN} = "squeezelite.service"

@@ -18,10 +18,28 @@ if ! [ -d "/mnt/data/settings/audio/alsa" ]; then
 	echo "card 1" >> /mnt/data/settings/audio/alsa/asound.conf
 	echo "}" >> /mnt/data/settings/audio/alsa/asound.conf
         rm -r /etc/asound.conf
+	
+fi
+
+if ! [ -d "/mnt/data/settings/system" ]; then
+
+        mkdir -p /mnt/data/settings/system
+	serial_hex=`cat /sys/fsl_otp/HW_OCOTP_GP1`
+	serial_dec=`echo $(($serial_hex))`
+	echo "VoltaStream-$serial_dec" > /mnt/data/settings/system/hostname
+fi
+
+setting_host=`cat /mnt/data/settings/system/hostname`
+etc_host=`cat /etc/hostname`
+
+if [ "$etc_host" != "$setting_host" ]; then
+	echo "$setting_host" > /etc/hostname
+	reboot  
 fi
 
 mkdir /run/lock
 rm -r /var/lib/connman
 rm -r /etc/asound.conf
-ln -s -f /mnt/data/settings/wireless/connman /var/lib/connman
 ln -s -f /mnt/data/settings/audio/alsa/asound.conf /etc/asound.conf
+ln -s -f /mnt/data/settings/wireless/connman /var/lib/connman
+

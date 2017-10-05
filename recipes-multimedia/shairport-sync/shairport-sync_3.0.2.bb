@@ -29,7 +29,7 @@ do_compile_prepend() {
 do_install_append() {
 
     	install -d ${D}${systemd_system_unitdir}
-    	install -m 0755 ${WORKDIR}/shairport-sync.service ${D}${systemd_system_unitdir}
+    	install -m 0644 ${WORKDIR}/shairport-sync.service ${D}${systemd_system_unitdir}
 }
 
 EXTRA_OECONF_append = " --sysconfdir=/etc --with-alsa --with-avahi --with-ssl=openssl --with-metadata --with-systemv"

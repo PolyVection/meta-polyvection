@@ -19,7 +19,7 @@ do_install () {
 	install -m 0755 ${WORKDIR}/librespot-v20170916-1a14e80 ${D}${sbindir}/librespot
 
     	install -d ${D}${systemd_system_unitdir}
-    	install -m 0755 ${WORKDIR}/librespot.service ${D}${systemd_system_unitdir}
+    	install -m 0644 ${WORKDIR}/librespot.service ${D}${systemd_system_unitdir}
 }
 
 FILES_${PN} += "${sbindir}/librespot"

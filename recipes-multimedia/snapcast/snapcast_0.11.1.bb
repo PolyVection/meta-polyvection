@@ -23,8 +23,8 @@ do_install () {
 	install -m 0755 ${WORKDIR}/snapclient_0.11.1 ${D}${bindir}/snapclient
 
     	install -d ${D}${systemd_system_unitdir}
-    	install -m 0755 ${WORKDIR}/snapserver.service ${D}${systemd_system_unitdir}
-	install -m 0755 ${WORKDIR}/snapclient.service ${D}${systemd_system_unitdir}
+    	install -m 0644 ${WORKDIR}/snapserver.service ${D}${systemd_system_unitdir}
+	install -m 0644 ${WORKDIR}/snapclient.service ${D}${systemd_system_unitdir}
 
 	install -d ${D}${sysconfdir}/default/
 	install -m 0755 ${WORKDIR}/snapserver.etc_default  ${D}${sysconfdir}/default/snapserver

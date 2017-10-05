@@ -16,7 +16,7 @@ do_install () {
 	install -m 0755 ${WORKDIR}/polyos-hostname ${D}${sbindir}/
 
 	install -d ${D}${systemd_system_unitdir}
-    	install -m 0755 ${WORKDIR}/polyos-hostname.service ${D}${systemd_system_unitdir}
+    	install -m 0644 ${WORKDIR}/polyos-hostname.service ${D}${systemd_system_unitdir}
 }
 
 inherit systemd

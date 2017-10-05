@@ -13,6 +13,7 @@
 # FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for
 # more details.
 #
+# aplay -l | awk -F \: '/,/{print $2}' | awk '{print $1}' | uniq
 
 import os
 import sys
@@ -27,11 +28,11 @@ def selectSPDIF():
     f = open("/mnt/data/settings/audio/alsa/asound.conf", 'w')
     f.write("ctl.!default {\n")
     f.write("type hw\n")
-    f.write("card 1\n")
+    f.write("card pcm5121\n")
     f.write("}\n")
     f.write("pcm.!default {\n")
     f.write("type hw\n")
-    f.write("card 0\n")
+    f.write("card imxspdif\n")
     f.write("}\n")
     f.close()
 
@@ -39,11 +40,23 @@ def selectLINE():
     f = open("/mnt/data/settings/audio/alsa/asound.conf", 'w')
     f.write("ctl.!default {\n")
     f.write("type hw\n")
-    f.write("card 1\n")
+    f.write("card pcm5121\n")
     f.write("}\n")
     f.write("pcm.!default {\n")
     f.write("type hw\n")
-    f.write("card 1\n")
+    f.write("card pcm5121\n")
+    f.write("}\n")
+    f.close()
+
+def selectAMP1():
+    f = open("/mnt/data/settings/audio/alsa/asound.conf", 'w')
+    f.write("ctl.!default {\n")
+    f.write("type hw\n")
+    f.write("card is31ap2121\n")
+    f.write("}\n")
+    f.write("pcm.!default {\n")
+    f.write("type hw\n")
+    f.write("card is31ap2121\n")
     f.write("}\n")
     f.close()
 
@@ -53,13 +66,16 @@ def chooseFTS():
     print("Please select the audio output:")
     print("-----------------------------------------")
     print("")
-    print("0 -\t TOSLINK (S/PDIF on AMP1)")
-    print("1 -\t ANALOG (AMPLIFIER on AMP1)")
+    print("0 -\t TOSLINK \t(ZERO)")
+    print("1 -\t ANALOG  \t(ZERO)")
+    print("2 -\t AMPLIFIER\t(AMP1)")
     print("")
     user = input("Enter either 0 or 1 to configure audio output: ")
     if user == "0":
         selectSPDIF()
     if user == "1":
         selectLINE()
+    if user == "2":
+        selectAMP1()
     else:
         selectSPDIF()

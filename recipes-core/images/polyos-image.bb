@@ -35,6 +35,7 @@ IMAGE_INSTALL_append +=" \
 	systemd-wlan0 \
 	connman \
 	connman-client \
+	bluez5 \
 	"
 
 
@@ -46,6 +47,8 @@ IMAGE_INSTALL_append +=" \
 	alsa-utils \
 	alsa-asound \
 	fsl-alsa-plugins \
+	polyos-linein \
+	polyos-tosin \
 	"
 
 
@@ -75,10 +78,10 @@ IMAGE_INSTALL_append +=" \
 	u-boot-fw-utils-pv \
 	systemd-serialgetty \
 	polyos-opensnd \
-	polyos-hostname \
 	udev \
 	polyos-datapart \
 	polyos-setup \
+	cronie \
 	"
 
 #################

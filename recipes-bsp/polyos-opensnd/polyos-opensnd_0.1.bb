@@ -16,7 +16,7 @@ do_install () {
 	install -m 0755 ${WORKDIR}/silence.wav ${D}${sysconfdir}/wav/
 
 	install -d ${D}${systemd_system_unitdir}
-    	install -m 0755 ${WORKDIR}/polyos-opensnd.service ${D}${systemd_system_unitdir}
+    	install -m 0644 ${WORKDIR}/polyos-opensnd.service ${D}${systemd_system_unitdir}
 }
 
 inherit systemd

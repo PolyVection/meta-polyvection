@@ -8,7 +8,7 @@ inherit systemd
 
 do_install () {
     install -d ${D}${systemd_system_unitdir}
-    install -m 0755 ${WORKDIR}/wpa-wlan0.service ${D}${systemd_system_unitdir}
+    install -m 0644 ${WORKDIR}/wpa-wlan0.service ${D}${systemd_system_unitdir}
 }
 
 SYSTEMD_SERVICE_${PN} = "wpa-wlan0.service"

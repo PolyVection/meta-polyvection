@@ -34,7 +34,7 @@ do_install_append () {
 	#install -m 0755 ${WORKDIR}/gmediarenderer  ${D}${sysconfdir}/init.d/
 
 	install -d ${D}${systemd_system_unitdir}
-    	install -m 0755 ${WORKDIR}/gmediarenderer.service ${D}${systemd_system_unitdir}
+    	install -m 0644 ${WORKDIR}/gmediarenderer.service ${D}${systemd_system_unitdir}
 }
 
 FILES_${PN} += "/usr/share/gmediarender/grender-64x64.png \
