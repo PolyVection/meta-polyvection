@@ -62,6 +62,8 @@ IMAGE_INSTALL_append +=" \
 	gmrender-resurrect \
 	snapcast \
 	squeezelite \
+	mpd \
+	mpc \
 	"
 
 
@@ -82,6 +84,9 @@ IMAGE_INSTALL_append +=" \
 	polyos-datapart \
 	polyos-setup \
 	cronie \
+	nodejs \
+	nodejs-npm \
+	polyos-restapi \
 	"
 
 #################
