@@ -27,6 +27,10 @@ handle["/command/voldown"]           	= commandHandlers.volDown;
 handle["/command/volset"]            	= commandHandlers.volSet;
 handle["/command/play"]              	= commandHandlers.play;
 handle["/command/pause"]		= commandHandlers.pause;
+handle["/command/linein-start"]		= commandHandlers.lineinstart;
+handle["/command/linein-stop"]		= commandHandlers.lineinstop;
+handle["/command/tosin-start"]		= commandHandlers.tosinstart;
+handle["/command/tosin-stop"]		= commandHandlers.tosinstop;
 
 handle["/source/listall"]		= sourceHandlers.listAll;
 handle["/source/status"]		= sourceHandlers.status;
